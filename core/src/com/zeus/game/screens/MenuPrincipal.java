@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,7 +27,7 @@ public class MenuPrincipal implements Screen {
 
     private Stage escena;
     private Table tabla;
-    private TextButton botonJugar, botonSalir;
+    private Button botonJugar, botonSalir;
     private Label encabezado;
     private Skin skin;
     private BitmapFont letra;
@@ -51,20 +54,17 @@ public class MenuPrincipal implements Screen {
         estilo_boton.fontColor = Color.BLACK;
 
         botonJugar = new TextButton("Jugar", estilo_boton);
+        botonJugar.setTouchable(Touchable.enabled);
         botonSalir = new TextButton("Salir", estilo_boton);
-        botonSalir.addListener(new ClickListener() {
+        botonSalir.setTouchable(Touchable.enabled);
+        botonJugar.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new Splash());
             }
         });
-        botonJugar.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new Inicial());
-            }
 
-        });
+
         botonJugar.pad(30);
         botonSalir.pad(30);
 
@@ -75,12 +75,14 @@ public class MenuPrincipal implements Screen {
 
 
         // creando la tabla contenedora
-        tabla.add(encabezado).spaceBottom(100);
-        tabla.row();
-        tabla.add(botonJugar).spaceRight(50);
+        tabla.add();
+        tabla.add(encabezado);
+        tabla.row().spaceBottom(100);
+        tabla.add();
+        tabla.add(botonJugar);
+        tabla.add();
         tabla.add(botonSalir);
-        tabla.debug();
-
+        tabla.debugTable();
 
         escena.addActor(tabla);
 
@@ -93,8 +95,6 @@ public class MenuPrincipal implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         escena.act(delta);
         escena.draw();
-
-
     }
 
     @Override
