@@ -3,10 +3,12 @@ package com.zeus.game.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.zeus.game.Mathica;
 import com.zeus.game.tween.SpriteAccessor;
 
 import aurelienribon.tweenengine.BaseTween;
@@ -24,6 +26,23 @@ public class Splash implements Screen {
     private Sprite splash;
     private SpriteBatch batch;
     private TweenManager tweenManager;
+    private Sound intro;
+    private Mathica game;
+
+
+    public Splash(Mathica game) {
+        this.game = game;
+        batch = new SpriteBatch();
+        intro = game.getManager().get("sound/coin.ogg");
+
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Sprite.class,new SpriteAccessor());
+        Texture splashTexture = new Texture(Gdx.files.internal("img/splash.jpg"));
+        splash= new Sprite(splashTexture);
+        splash.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+
+
+    }
 
     @Override
     public void render(float delta) {
@@ -47,19 +66,17 @@ public class Splash implements Screen {
 
     @Override
     public void show() {
-        batch = new SpriteBatch();
-        tweenManager = new TweenManager();
-        Tween.registerAccessor(Sprite.class,new SpriteAccessor());
-        Texture splashTexture = new Texture(Gdx.files.internal("img/splash.jpg"));
-        splash= new Sprite(splashTexture);
-        splash.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        intro.play(0.30f);
         Tween.set(splash, SpriteAccessor.ALPHA).target(0).start(tweenManager);
         Tween.to(splash, SpriteAccessor.ALPHA,2).target(1).repeatYoyo(1, 3).setCallback(new TweenCallback() {
             @Override
             public void onEvent(int i, BaseTween<?> baseTween) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuPrincipal());
+
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MenuPrincipal(game));
             }
         }).start(tweenManager);
+
+
     }
 
     @Override

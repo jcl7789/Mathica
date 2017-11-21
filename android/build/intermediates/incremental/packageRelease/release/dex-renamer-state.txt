@@ -1,0 +1,4 @@
+#Sun Nov 19 17:23:43 ART 2017
+base.0=/home/usuario/Juego/android/build/intermediates/transforms/dex/release/0
+renamed.0=classes.dex
+file.0=/home/usuario/Juego/android/build/intermediates/transforms/dex/release/0/classes.dex

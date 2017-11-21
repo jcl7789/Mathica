@@ -1,0 +1,117 @@
+{
+  "com.badlogic.gdx.graphics.Color": {
+    "blanco": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 1
+    },
+    "negro": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "verde": {
+      "r": 0,
+      "g": 1,
+      "b": 0,
+      "a": 1
+    },
+    "azul": {
+      "r": 0,
+      "g": 0,
+      "b": 1,
+      "a": 1
+    },
+    "rojo": {
+      "r": 1,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "papiro": {
+      "r": 230,
+      "g": 214,
+      "b": 144,
+      "a": 1
+    },
+    "bronce": {
+      "r": 121,
+      "g": 85,
+      "b": 46,
+      "a": 1
+    },
+    "oro": {
+      "r": 229,
+      "g": 190,
+      "b": 1,
+      "a": 1
+    },
+    "plata": {
+      "r": 234,
+      "g": 230,
+      "b": 202,
+      "a": 1
+    }
+  },
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "pirata": {
+      "file": "font/pirate.fnt"
+    },
+    "clasica": {
+      "file": "font/pirate.fnt"
+    },
+    "mono": {
+      "file": "font/pirate.fnt"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    "pirata_blanco": {
+      "font": "pirata",
+      "fontColor": "blanco"
+    },
+    "pirata_negro": {
+      "font": "pirata",
+      "fontColor": "negro"
+    },
+    "default": {
+      "font": "pirata",
+      "fontColor": "blanco"
+    },
+    "clasica_negro": {
+      "font": "pirata",
+      "fontColor": "negro"
+    },
+    "clasica_blanco": {
+      "font": "pirata",
+      "fontColor": "blanco"
+    },
+    "mono_negro": {
+      "font": "pirata",
+      "fontColor": "negro"
+    },
+    "mono_blanco": {
+      "font": "pirata",
+      "fontColor": "blanco"
+    },
+    "mono_rojo": {
+      "font": "pirata",
+      "fontColor": "rojo"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton": {
+    "default": {
+      "up": "boton.arriba",
+      "down": "boton.abajo",
+      "font": "mono",
+      "fontColor": "negro",
+      "pressedOffsetX": 1,
+      "pressedOffsetY": -1
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+  }
+}

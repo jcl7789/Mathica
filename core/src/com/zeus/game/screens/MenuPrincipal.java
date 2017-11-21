@@ -3,20 +3,22 @@ package com.zeus.game.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.zeus.game.Mathica;
 
 /**
@@ -30,61 +32,58 @@ public class MenuPrincipal implements Screen {
     private Button botonJugar, botonSalir;
     private Label encabezado;
     private Skin skin;
-    private BitmapFont letra;
     private TextureAtlas atlas;
+    private Music musica;
+
+    public MenuPrincipal(final Mathica game) {
+        escena = new Stage(new FillViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
+        atlas = new TextureAtlas("ui/atlas.pack");
+        skin = new Skin(Gdx.files.internal("ui/menuSkin.json"), atlas);
+        tabla = new Table(skin);
+        musica = game.getManager().get("music/principal.mp3");
+        musica.setLooping(true);
+        tabla.setBounds(0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        encabezado = new Label("Bienvenido\na una aventura \nmatematica!", skin, "pirata_negro");
+        encabezado.setAlignment(Align.center);
+        encabezado.setFontScale(3);
+        botonJugar = new TextButton("Jugar", skin);
+        botonSalir = new TextButton("Salir", skin);
+        botonJugar.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.input.setInputProcessor(null);
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new SeleccionJugador(game,musica));
+            }
+        });
+        botonSalir.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+    tabla.background(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("img/fondo.png"))))); /*fondo*/
+    }
 
 
     @Override
     public void show() {
-        escena = new Stage();
-        letra = new BitmapFont(Gdx.files.internal("font/pirate.fnt"), false);
-        atlas = new TextureAtlas("ui/boton.atlas");
-        skin = new Skin(atlas);
-        tabla = new Table(skin);
-        tabla.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-
-        // creando botones
-        TextButton.TextButtonStyle estilo_boton = new TextButton.TextButtonStyle();
-        estilo_boton.up = skin.getDrawable("boton.arriba");
-        estilo_boton.down = skin.getDrawable("boton.abajo");
-        estilo_boton.pressedOffsetX = 1;
-        estilo_boton.pressedOffsetY = -1;
-        estilo_boton.font = letra;
-        estilo_boton.fontColor = Color.BLACK;
-
-        botonJugar = new TextButton("Jugar", estilo_boton);
-        botonJugar.setTouchable(Touchable.enabled);
-        botonSalir = new TextButton("Salir", estilo_boton);
-        botonSalir.setTouchable(Touchable.enabled);
-        botonJugar.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new Splash());
-            }
-        });
-
-
-        botonJugar.pad(30);
-        botonSalir.pad(30);
-
-        // crear encabezado
-        Label.LabelStyle estilo_encabe = new Label.LabelStyle(letra, Color.WHITE);
-        encabezado = new Label(Mathica.TITLE, estilo_encabe);
-        encabezado.setFontScale(2.5f);
-
+        musica.play();
 
         // creando la tabla contenedora
-        tabla.add();
-        tabla.add(encabezado);
-        tabla.row().spaceBottom(100);
-        tabla.add();
+        botonJugar.pad(35).padLeft(20).padRight(20);
+        botonSalir.pad(35).padLeft(20).padRight(20);
+
+        tabla.add(encabezado).top().center().spaceBottom(tabla.getHeight()/3).colspan(3);
+        tabla.row();
+        tabla.add().width(tabla.getWidth()/3);
+        tabla.add().width(tabla.getWidth()/3);
+        tabla.add().width(tabla.getWidth()/3).row();
         tabla.add(botonJugar);
         tabla.add();
         tabla.add(botonSalir);
-        tabla.debugTable();
-
+        tabla.debug();
         escena.addActor(tabla);
+        Gdx.input.setInputProcessor(escena);
 
 
     }
@@ -122,7 +121,6 @@ public class MenuPrincipal implements Screen {
     public void dispose() {
         escena.dispose();
         skin.dispose();
-        letra.dispose();
         atlas.dispose();
 
     }

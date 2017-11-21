@@ -1,0 +1,4 @@
+#Tue Nov 21 02:44:46 ART 2017
+base.0=/home/usuario/Juego/android/build/intermediates/transforms/dexMerger/debug/48
+path.0=classes.dex
+renamed.0=classes.dex
